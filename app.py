@@ -5,10 +5,11 @@ import os
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-@app.route("/search", methods=["POST"])
-def search():
+@app.route("/chat", methods=["POST"])  # <- zmenené z /search na /chat
+def chat():
     data = request.get_json()
-    question = data.get("question", "")
+    question = data.get("question", "") or data.get("message", "")  # ak frontend posiela "message"
+
     if not question:
         return jsonify({"answer": "Zadaj otázku, prosím."})
 
